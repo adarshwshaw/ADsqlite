@@ -53,6 +53,12 @@ int main(int argc, char const *argv[]){
         case (PREPARE_SYNTAX_ERROR):
             printf("Syntax error. Could not parse statement.\n");
             continue;
+        case (PREPARE_STRING_TOO_LONG):
+            printf("String too long.\n");
+            continue;
+        case (PREPARE_NEGATIVE_ID):
+            printf("Id must be positive.\n");
+            continue;
         case PREPARE_UNRECOGNIZED_STATEMENT:
             printf("Unrecognized keyword at start of '%s'.\n",
                 input_buffer->buffer);
