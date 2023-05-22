@@ -9,6 +9,10 @@
 #include <stdio.h>
 typedef long long ssize_t;
 
+
 ssize_t getline(char** line,size_t* len,FILE* file);
+
+    
+
 
 #endif //AD_POSIX_H

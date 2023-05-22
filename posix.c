@@ -2,10 +2,12 @@
 #include <malloc.h>
 #include <string.h>
 
+#define MAX_BUFFER 4096
+
 ssize_t getline(char** line,size_t* len,FILE* file){
     if (*line == NULL){
-        *line = calloc(1,1024);
-        *len = 1024;
+        *len = (*len == 0)?MAX_BUFFER:*len;
+        *line = calloc(1,*len);
     }
     // int i = fscanf(file,"%[^\n]s",*line);
     char *i=fgets(*line,*len,stdin);

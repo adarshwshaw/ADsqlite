@@ -8,6 +8,7 @@
 #define ad_statement_h
 #include <stdint.h>
 #include "input_buffer.h"
+#include "dbf.h"
 
 typedef struct _table Table;
 
@@ -29,7 +30,7 @@ typedef enum {
 typedef struct {
     uint32_t id;
     char username[COLUMN_USERNAME_SIZE+1];
-char email[COLUMN_EMAIL_SIZE+1];
+    char email[COLUMN_EMAIL_SIZE+1];
 } Row;
 
 #define size_of_attribute(Struct, Attribute) sizeof(((Struct*)0)->Attribute)
@@ -47,19 +48,17 @@ void deserialize_row(void* src, Row* destination);
 void* row_slot(Table* table, uint32_t row_num);
 void print_row(Row* row);
 
-static const uint32_t PAGE_SIZE = 4096;
-#define TABLE_MAX_PAGES 100
+
 static const uint32_t ROWS_PER_PAGE = PAGE_SIZE / ROW_SIZE;
 static const uint32_t TABLE_MAX_ROWS = ROWS_PER_PAGE * TABLE_MAX_PAGES;
 
 struct _table{
   uint32_t num_rows;
-  void* pages[TABLE_MAX_PAGES];
+  Pager *pager;
 };
 
-Table* new_table();
-void free_table(Table* table);
-
+Table* db_open(const char* filename);
+void db_close(Table* table);
 typedef struct {
   StatementType type;
   Row row_to_insert;
